@@ -120,28 +120,28 @@
     </div>
 
     <script>
-      function copyToClipboard() {
-        // Get the text field
-        var shortenedUrl = document.getElementById("shortenedUrl").href;
+  function copyToClipboard() {
+    // Get the text field
+    var shortenedUrl = document.getElementById("shortenedUrl").href;
 
-        // Create a temporary input element to copy the URL
-        var tempInput = document.createElement("input");
-        tempInput.value = shortenedUrl;
-        document.body.appendChild(tempInput);
+    // Create a temporary input element to copy the URL
+    var tempInput = document.createElement("input");
+    tempInput.value = shortenedUrl;
+    document.body.appendChild(tempInput);
 
-        // Select the text field
-        tempInput.select();
-        tempInput.setSelectionRange(0, 99999); // For mobile devices
+    // Select the text field
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // For mobile devices
 
-        // Execute the copy command
-        document.execCommand("copy");
+    // Execute the copy command
+    document.execCommand("copy");
 
-        // Remove the temporary input field
-        document.body.removeChild(tempInput);
+    // Remove the temporary input field
+    document.body.removeChild(tempInput);
 
-        // Optionally, notify the user
-        alert("Shortened URL copied to clipboard!");
-      }
-    </script>
+    // Optionally, notify the user
+    showNotification("Shortened URL copied to clipboard!", "info");
+  }
+</script>
   </body>
 </html>

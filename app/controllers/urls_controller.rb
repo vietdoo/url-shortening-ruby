@@ -13,7 +13,8 @@ class UrlsController < ApplicationController
     if @url.save
       redirect_to shortened_url_result_path(id: @url.hash_id)
     else
-      render json: @url.errors, status: :unprocessable_entity
+      
+      redirect_to shortening_url_path
     end
   end
 
