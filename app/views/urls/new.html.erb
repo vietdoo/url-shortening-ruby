@@ -17,7 +17,7 @@
       <div>
         <%= form.label :expiration_days, "Select expiration time (days)", class: "block text-sm font-medium text-gray-700" %>
         <%= form.select :expiration_days, options_for_select((1..30).map { |d| [pluralize(d, 'day'), d] }, 30), {}, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-      </div>
+        </div>
       <div>
         <%= form.submit "Shorten URL", 
             class: "w-full flex justify-center py-3 px-6 text-lg font-semibold rounded-full text-white bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:via-blue-600 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-400 shadow-lg transition-all duration-300" %>
