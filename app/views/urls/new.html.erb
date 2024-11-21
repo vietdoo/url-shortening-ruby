@@ -133,10 +133,10 @@
           <h1>🌟 URL Shortener</h1>
           <p>Shorten your links effortlessly with just one click!</p>
         </div>
-        <%= form_with model: @url, url: encode_path, method: :post, local: true do |form| %>
+        <%= form_with model: @url, url: encode_path, method: :post, local: true, id: "urlForm" do |form| %>
           <div>
             <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
-            <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field" %>
+            <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl" %>
           </div>
           
           <div>
@@ -148,6 +148,18 @@
             <%= form.submit "Shorten URL", class: "submit-button" %>
           </div>
         <% end %>
+
+        <script>
+        document.getElementById('urlForm').addEventListener('submit', function(event) {
+            const urlInput = document.getElementById('originalUrl').value;
+            const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+            if (!urlPattern.test(urlInput)) {
+            event.preventDefault();
+            showNotification('Invalid URL format', 'error');
+            }
+        });
+        </script>
 
         <div class="footer-text">
           <p>Need help? <a href="#">Contact Support</a></p>
