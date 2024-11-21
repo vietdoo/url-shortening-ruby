@@ -7,7 +7,8 @@ class UrlsController < ApplicationController
     @url = Url.new(url_params)
     @url.short_code = generate_unique_short_code
     @url.time_init = Time.now
-    @url.time_expired = Time.now + 30.days
+    expiration_days = params[:url][:expiration_days].to_i
+    @url.time_expired = Time.now + expiration_days.days
 
     if @url.save
       redirect_to result_path(short_code: @url.short_code)
