@@ -5,7 +5,7 @@ class UrlsController < ApplicationController
 
   def encode
     @url = Url.new(url_params)
-    @url.short_code = SecureRandom.hex(5)
+    @url.short_code = generate_unique_short_code
     @url.time_init = Time.now
     @url.time_expired = Time.now + 30.days
 
@@ -48,5 +48,12 @@ class UrlsController < ApplicationController
 
   def url_params
     params.require(:url).permit(:original_url)
+  end
+
+  def generate_unique_short_code
+    loop do
+      short_code = SecureRandom.hex(5)
+      break short_code unless Url.exists?(short_code: short_code)
+    end
   end
 end
