@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   get "shortening-url" => "urls#new"
   get "urls" => "urls#index"
   get "result" => "urls#result"
+  get "/:short_code" => "urls#show", as: :short_url
 end
