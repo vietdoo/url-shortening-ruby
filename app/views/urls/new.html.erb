@@ -1,10 +1,27 @@
-<h1>URL Shortener</h1>
-<%= form_with model: @url, url: encode_path, method: :post, local: true do |form| %>
-  <div>
-    <%= form.label :original_url, "Enter URL to shorten" %>
-    <%= form.text_field :original_url %>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-600 py-12 px-6 sm:px-10 lg:px-12">
+  <div class="max-w-lg w-full bg-white p-10 rounded-3xl shadow-2xl">
+    <div class="text-center">
+      <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight">🌟 URL Shortener</h1>
+      <p class="mt-4 text-lg text-gray-600">
+        Quickly shorten your links with just one click!
+      </p>
+    </div>
+    <%= form_with model: @url, url: encode_path, method: :post, local: true, class: "mt-10 space-y-6" do |form| %>
+      <div>
+        <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
+        <%= form.text_field :original_url, 
+            placeholder: "https://example.com", 
+            class: "block w-full px-5 py-4 border border-gray-300 rounded-lg shadow-md placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:border-pink-400 sm:text-lg" %>
+      </div>
+      <div>
+        <%= form.submit "Shorten URL", 
+            class: "w-full flex justify-center py-3 px-6 text-lg font-semibold rounded-full text-white bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:via-blue-600 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-400 shadow-lg transition-all duration-300" %>
+      </div>
+    <% end %>
+    <div class="mt-8 text-center">
+      <p class="text-md text-gray-500">
+        Want to learn more? <a href="#" class="text-purple-500 hover:underline font-bold">Contact Support</a>
+      </p>
+    </div>
   </div>
-  <div>
-    <%= form.submit "Shorten URL" %>
-  </div>
-<% end %>
+</div>

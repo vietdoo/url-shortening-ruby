@@ -1,21 +1,21 @@
-<h1>All URLs</h1>
+<h1 class="text-3xl font-bold mb-4">All URLs</h1>
 
-<table>
-  <thead>
+<table class="min-w-full divide-y divide-gray-200">
+  <thead class="bg-gray-50">
     <tr>
-      <th>Original URL</th>
-      <th>Short Code</th>
-      <th>Time Initialized</th>
-      <th>Time Expired</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Code</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Initialized</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Expired</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="bg-white divide-y divide-gray-200">
     <% @urls.each do |url| %>
       <tr>
-        <td><%= url.original_url %></td>
-        <td><%= url.short_code %></td>
-        <td><%= url.time_init %></td>
-        <td><%= url.time_expired %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= url.original_url %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= url.short_code %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= url.time_init %></td>
+        <td class="px-6 py-4 whitespace-nowrap"><%= url.time_expired %></td>
       </tr>
     <% end %>
   </tbody>
