@@ -1,0 +1,10 @@
+<h1>URL Shortener</h1>
+<%= form_with model: @url, url: encode_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :original_url, "Enter URL to shorten" %>
+    <%= form.text_field :original_url %>
+  </div>
+  <div>
+    <%= form.submit "Shorten URL" %>
+  </div>
+<% end %>

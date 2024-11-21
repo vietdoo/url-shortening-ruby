@@ -11,4 +11,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  post "encode" => "urls#encode"
+  post "decode" => "urls#decode"
+  get "shortening-url" => "urls#new"
+  get "urls" => "urls#index"
+  get "result" => "urls#result"
 end

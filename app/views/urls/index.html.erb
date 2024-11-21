@@ -1,0 +1,22 @@
+<h1>All URLs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Original URL</th>
+      <th>Short Code</th>
+      <th>Time Initialized</th>
+      <th>Time Expired</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @urls.each do |url| %>
+      <tr>
+        <td><%= url.original_url %></td>
+        <td><%= url.short_code %></td>
+        <td><%= url.time_init %></td>
+        <td><%= url.time_expired %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

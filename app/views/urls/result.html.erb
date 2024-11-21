@@ -1,0 +1,20 @@
+<h1>Shortened URL</h1>
+
+<% if @url %>
+  <p>Original URL: <%= @url.original_url %></p>
+  <p>Shortened URL: <%= url_for(controller: 'urls', action: 'decode', short_code: @url.short_code) %></p>
+  <p>Expiration Time: <%= @url.time_expired %></p>
+  <button onclick="copyToClipboard('<%= url_for(controller: 'urls', action: 'decode', short_code: @url.short_code) %>')">Copy</button>
+<% else %>
+  <p>URL not found or expired.</p>
+<% end %>
+
+<script>
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      alert('Copied to clipboard');
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+</script>
