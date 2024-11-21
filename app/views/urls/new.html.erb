@@ -1,32 +1,158 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-600 py-12 px-6 sm:px-10 lg:px-12">
-  <div class="max-w-lg w-full bg-white p-10 rounded-3xl shadow-2xl">
-    <div class="text-center">
-      <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight">🌟 URL Shortener</h1>
-      <p class="mt-4 text-lg text-gray-600">
-        Quickly shorten your links with just one click!
-      </p>
-    </div>
-    <%= form_with model: @url, url: encode_path, method: :post, local: true, class: "mt-10 space-y-6" do |form| %>
-      <div>
-        <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
-        <%= form.text_field :original_url, 
-            placeholder: "https://example.com", 
-            class: "block w-full px-5 py-4 border border-gray-300 rounded-lg shadow-md placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:border-pink-400 sm:text-lg" %>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 URL Shortener</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-      <div>
-        <%= form.label :expiration_days, "Select expiration time (days)", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.select :expiration_days, options_for_select((1..30).map { |d| [pluralize(d, 'day'), d] }, 30), {}, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom right, #fafafa, #f87ab8);
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+      }
+
+      .form-container h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 10px;
+      }
+
+      .form-container p {
+        font-size: 1rem;
+        color: #6b7280;
+        margin-bottom: 20px;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #333;
+        background-color: #f9fafb;
+        margin-bottom: 15px;
+        transition: all 0
+                .3s ease-in-out;
+      }
+
+      .input-field:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      }
+
+      .select-field {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #333;
+        background-color: #f9fafb;
+        margin-bottom: 25px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .select-field:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      }
+
+      .submit-button {
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 15px 25px;
+        border-radius: 8px;
+        width: 100%;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .submit-button:hover {
+        transform: scale(1.05);
+      }
+
+      .submit-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+      }
+
+      .footer-text {
+        font-size: 0.9rem;
+        color: #6b7280;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-text a {
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <div class="text-center">
+          <h1>🌟 URL Shortener</h1>
+          <p>Shorten your links effortlessly with just one click!</p>
         </div>
-      <div>
-        <%= form.submit "Shorten URL", 
-            class: "w-full flex justify-center py-3 px-6 text-lg font-semibold rounded-full text-white bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:via-blue-600 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-400 shadow-lg transition-all duration-300" %>
+        <%= form_with model: @url, url: encode_path, method: :post, local: true do |form| %>
+          <div>
+            <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
+            <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field" %>
+          </div>
+          
+          <div>
+            <%= form.label :expiration_days, "Select expiration time (days)", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :expiration_days, options_for_select((1..30).map { |d| [pluralize(d, 'day'), d] }, 30), {}, class: "select-field" %>
+          </div>
+          
+          <div>
+            <%= form.submit "Shorten URL", class: "submit-button" %>
+          </div>
+        <% end %>
+
+        <div class="footer-text">
+          <p>Need help? <a href="#">Contact Support</a></p>
+        </div>
       </div>
-    <% end %>
-    <div class="mt-8 text-center">
-      <p class="text-md text-gray-500">
-        Want to learn more? <a href="#" class="text-purple-500 hover:underline font-bold">Contact Support</a>
-      </p>
     </div>
-  </div>
-</div>
+  </body>
+</html>

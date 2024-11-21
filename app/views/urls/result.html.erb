@@ -1,26 +1,149 @@
-<h1 class="text-3xl font-bold mb-4">Shortened URL</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Shortened URL</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-<% if @url %>
-  <p class="mb-2"><strong>Original URL:</strong> <%= @url.original_url %></p>
-  <p class="mb-2"><strong>Shortened URL:</strong> 
-    <a href="<%= short_url_url(@url.short_code) %>" target="_blank" class="text-blue-500 underline">
-      <%= request.base_url + "/" + @url.short_code %>
-    </a>
-  </p>
-  <p class="mb-4"><strong>Expiration Time:</strong> <%= @url.time_expired %></p>
-  <button onclick="copyToClipboard('<%= request.base_url + "/" + @url.short_code %>')" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Copy</button>
-  <a href="<%= shortening_url_path %>" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 ml-4">Home</a>
-<% else %>
-  <p>URL not found or expired.</p>
-  <a href="<%= shortening_url_path %>" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Home</a>
-<% end %>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
 
-<script>
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(function() {
-      alert('Copied to clipboard');
-    }, function(err) {
-      console.error('Could not copy text: ', err);
-    });
-  }
-</script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom right, #fafafa, #f87ab8);
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .content-container {
+        background: #fff;
+        padding: 40px; /* Ensures all sides have equal padding */
+        padding-left: 30px;  /* Adjust padding if needed */
+        padding-right: 30px; /* Adjust padding if needed */
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 1000px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .content-container h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 20px;
+      }
+
+      .content-container p {
+        font-size: 1.2rem;
+        color: #6b7280;
+        margin-bottom: 15px;
+      }
+
+      .btn-copy, .btn-home {
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 12px 22px;
+        border-radius: 8px;
+        width: auto;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        margin-top: 20px;
+      }
+
+      .btn-copy:hover, .btn-home:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-copy:focus, .btn-home:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+      }
+
+      .footer-text {
+        font-size: 1rem;
+        color: #6b7280;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-text a {
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content-container">
+        <h1 class="text-3xl font-bold mb-4">Shortened URL</h1>
+
+        <% if @url %>
+          <p class="mb-2"><strong>Original URL:</strong> <%= @url.original_url %></p>
+          <p class="mb-2"><strong>Shortened URL:</strong> 
+            <a href="<%= short_url_url(@url.short_code) %>" target="_blank" class="text-blue-500 underline" id="shortenedUrl">
+              <%= request.base_url + "/" + @url.short_code %>
+            </a>
+          </p>
+          <button class="btn-copy" onclick="copyToClipboard()">Copy Shortened URL</button>
+          <p class="mb-4"><strong>Expiration Time:</strong> <%= @url.time_expired %></p>
+          
+          <div class="footer-text">
+            <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
+          </div>
+        <% else %>
+          <p>URL not found or expired.</p>
+           <div class="footer-text">
+            <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <script>
+      function copyToClipboard() {
+        // Get the text field
+        var shortenedUrl = document.getElementById("shortenedUrl").href;
+
+        // Create a temporary input element to copy the URL
+        var tempInput = document.createElement("input");
+        tempInput.value = shortenedUrl;
+        document.body.appendChild(tempInput);
+
+        // Select the text field
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Execute the copy command
+        document.execCommand("copy");
+
+        // Remove the temporary input field
+        document.body.removeChild(tempInput);
+
+        // Optionally, notify the user
+        alert("Shortened URL copied to clipboard!");
+      }
+    </script>
+  </body>
+</html>

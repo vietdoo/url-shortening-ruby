@@ -39,9 +39,10 @@ class UrlsController < ApplicationController
     @url = Url.find_by(short_code: params[:short_code])
 
     if @url && @url.time_expired > Time.now
-      render plain: @url.original_url
+      @original_url = @url.original_url
+      render :show
     else
-      render plain: ""
+      render plain: "URL not found or expired"
     end
   end
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f4f6;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+    }
+    .countdown {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>You will be redirected to the original URL in <span class="countdown" id="countdown">3</span> seconds...</p>
+    <p>If you are not redirected, <a href="<%= @original_url %>">click here</a>.</p>
+  </div>
+
+  <script>
+    let countdownElement = document.getElementById('countdown');
+    let countdown = 3;
+
+    setInterval(() => {
+      countdown--;
+      countdownElement.textContent = countdown;
+      if (countdown === 0) {
+        window.location.href = "<%= @original_url %>";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

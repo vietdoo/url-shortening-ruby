@@ -1,22 +1,150 @@
-<h1 class="text-3xl font-bold mb-4">All URLs</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 All URLs</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-<table class="min-w-full divide-y divide-gray-200">
-  <thead class="bg-gray-50">
-    <tr>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Code</th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Initialized</th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Expired</th>
-    </tr>
-  </thead>
-  <tbody class="bg-white divide-y divide-gray-200">
-    <% @urls.each do |url| %>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap"><%= url.original_url %></td>
-        <td class="px-6 py-4 whitespace-nowrap"><%= url.short_code %></td>
-        <td class="px-6 py-4 whitespace-nowrap"><%= url.time_init %></td>
-        <td class="px-6 py-4 whitespace-nowrap"><%= url.time_expired %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom right, #fafafa, #f87ab8);
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .content-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th, td {
+        padding: 12px;
+        text-align: left;
+        font-size: 1rem;
+      }
+
+      th {
+        background-color: #f3f4f6;
+        color: #4b5563;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      td {
+        background-color: #ffffff;
+        color: #6b7280;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      tr:hover td {
+        background-color: #f9fafb;
+      }
+
+      .btn-copy, .btn-home {
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 12px 22px;
+        border-radius: 8px;
+        width: auto;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        margin-top: 20px;
+      }
+
+      .btn-copy:hover, .btn-home:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-copy:focus, .btn-home:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+      }
+
+      .footer-text {
+        font-size: 1rem;
+        color: #6b7280;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-text a {
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content-container">
+        <h1 class="text-3xl font-bold mb-4">All URLs</h1>
+
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Code</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Initialized</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Expired</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @urls.each do |url| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap"><%= url.original_url %></td>
+                <td class="px-6 py-4 whitespace-nowrap"><%= url.short_code %></td>
+                <td class="px-6 py-4 whitespace-nowrap"><%= url.time_init %></td>
+                <td class="px-6 py-4 whitespace-nowrap"><%= url.time_expired %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <div class="footer-text">
+          <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
