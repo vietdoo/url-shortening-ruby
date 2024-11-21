@@ -11,7 +11,7 @@ class UrlsController < ApplicationController
     @url.time_expired = Time.now + expiration_days.days
 
     if @url.save
-      redirect_to result_path(short_code: @url.short_code)
+      redirect_to shortened_url_result_path(id: @url.hash_id)
     else
       render json: @url.errors, status: :unprocessable_entity
     end
@@ -32,17 +32,16 @@ class UrlsController < ApplicationController
   end
 
   def result
-    @url = Url.find_by(short_code: params[:short_code])
+    @url = Url.find_by(hash_id: params[:id])
   end
 
   def show
     @url = Url.find_by(short_code: params[:short_code])
 
     if @url && @url.time_expired > Time.now
-      @original_url = @url.original_url
-      render :show
+      render plain: @url.original_url
     else
-      render plain: "URL not found or expired"
+      render plain: ""
     end
   end
 

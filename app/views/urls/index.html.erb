@@ -127,6 +127,7 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Code</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Initialized</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Expired</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">HASH</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -136,6 +137,7 @@
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.short_code %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.time_init %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.time_expired %></td>
+                <td class="px-6 py-4 whitespace-nowrap"><%= url.hash_id %></td>
               </tr>
             <% end %>
           </tbody>

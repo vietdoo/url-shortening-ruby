@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_21_163332) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_21_181914) do
   create_table "urls", force: :cascade do |t|
     t.string "original_url"
     t.string "short_code"
@@ -18,5 +18,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_163332) do
     t.datetime "time_expired"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "hash_id"
   end
 end

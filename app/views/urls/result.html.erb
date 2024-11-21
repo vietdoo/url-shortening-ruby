@@ -30,9 +30,7 @@
 
       .content-container {
         background: #fff;
-        padding: 40px; /* Ensures all sides have equal padding */
-        padding-left: 30px;  /* Adjust padding if needed */
-        padding-right: 30px; /* Adjust padding if needed */
+        padding: 40px;
         border-radius: 12px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -114,7 +112,7 @@
           </div>
         <% else %>
           <p>URL not found or expired.</p>
-           <div class="footer-text">
+          <div class="footer-text">
             <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
           </div>
         <% end %>
