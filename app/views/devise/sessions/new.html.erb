@@ -1,26 +1,143 @@
-<h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Log in</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom right, #fafafa, #f87ab8);
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+      }
+
+      .form-container h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 10px;
+      }
+
+      .form-container p {
+        font-size: 1rem;
+        color: #6b7280;
+        margin-bottom: 20px;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 15px 0px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #333;
+        background-color: #f9fafb;
+        margin-bottom: 15px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .input-field:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      }
+
+      .submit-button {
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 15px 25px;
+        border-radius: 8px;
+        width: 100%;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .submit-button:hover {
+        transform: scale(1.05);
+      }
+
+      .submit-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+      }
+
+      .footer-text {
+        font-size: 0.9rem;
+        color: #6b7280;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-text a {
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <h1>Log in</h1>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div>
+            <%= f.label :email, "Email", class: "sr-only" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input-field" %>
+          </div>
+
+          <div>
+            <%= f.label :password, "Password", class: "sr-only" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "input-field" %>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div>
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me, "Remember me" %>
+            </div>
+          <% end %>
+
+          <div>
+            <%= f.submit "Log in", class: "submit-button" %>
+          </div>
+        <% end %>
+
+        <div class="footer-text">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  </body>
+</html>

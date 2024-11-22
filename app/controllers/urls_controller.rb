@@ -49,7 +49,7 @@ class UrlsController < ApplicationController
 
     if @url && @url.time_expired > Time.now
       @original_url = @url.original_url
-      render :show
+      render :show, layout: "minimal"
     else
       render plain: "URL not found or expired"
     end

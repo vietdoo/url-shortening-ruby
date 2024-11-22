@@ -37,6 +37,7 @@
       countdownElement.textContent = countdown;
       if (countdown === 0) {
         window.location.href = "<%= @original_url %>";
+        clearInterval();
       }
     }, 1000);
   </script>
