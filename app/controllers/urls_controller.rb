@@ -1,11 +1,12 @@
 class UrlsController < ApplicationController
-  before_action :authenticate_user!, only: [:encode, :history]
+  before_action :authenticate_user!, only: [:history]
   def new
     @url = Url.new
   end
 
   def encode
-    @url = current_user.urls.new(url_params)
+    @url = user_signed_in? ? current_user.urls.new(url_params) : Url.new(url_params)
+
     @url.short_code = params[:url][:short_code].presence || generate_unique_short_code
     @url.time_init = Time.now
     expiration_days = params[:url][:expiration_days].to_i
@@ -55,8 +56,14 @@ class UrlsController < ApplicationController
   end
 
   def history
-    @urls = current_user.urls
+    if user_signed_in?
+      @urls = current_user.urls
+    else
+      flash[:error] = "You must be logged in to view your history."
+      redirect_to new_user_session_path
+    end
   end
+
 
   private
 
