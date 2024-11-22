@@ -57,7 +57,7 @@ class UrlsController < ApplicationController
 
   def generate_unique_short_code
     loop do
-      short_code = SecureRandom.hex(5)
+      short_code = Array.new(rand(5..8)) { [*'a'..'z', *'A'..'Z', *'0'..'9'].sample }.join
       break short_code unless Url.exists?(short_code: short_code)
     end
   end
