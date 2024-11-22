@@ -10,9 +10,6 @@
 
     <%= yield :head %>
     
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
@@ -51,6 +48,11 @@
 
   <body class="bg-gray-100 text-gray-900">
     <div class="container mx-auto p-4">
+      <% if flash[:error] %>
+        <div id="flash-error" class="notification error show">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
 
