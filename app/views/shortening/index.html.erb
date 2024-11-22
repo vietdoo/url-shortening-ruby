@@ -165,8 +165,7 @@
 
                 if (response.ok) {
                   showNotification("URL shortened successfully!", "success");
-                  const resultHref = `<%= shortened_url_result_path('') %>?id=${data.hash_id}`;
-                  window.location.href = resultHref;
+                  window.location.href = data.data.result_page;
                 } else {
                   showNotification(data.message, "error");
                   console.error('Error Response:', data);
