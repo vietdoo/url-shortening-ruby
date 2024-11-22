@@ -5,15 +5,17 @@ class UrlsController < ApplicationController
 
   def encode
     @url = Url.new(url_params)
-    @url.short_code = generate_unique_short_code
+    @url.short_code = params[:url][:short_code].presence || generate_unique_short_code
     @url.time_init = Time.now
     expiration_days = params[:url][:expiration_days].to_i
     @url.time_expired = Time.now + expiration_days.days
 
-    if @url.save
+    if Url.exists?(short_code: @url.short_code)
+      flash[:error] = "Shortcode already exists. Please try another one."
+      redirect_to shortening_url_path
+    elsif @url.save
       redirect_to shortened_url_result_path(id: @url.hash_id)
     else
-      
       redirect_to shortening_url_path
     end
   end
@@ -50,7 +52,7 @@ class UrlsController < ApplicationController
   private
 
   def url_params
-    params.require(:url).permit(:original_url)
+    params.require(:url).permit(:original_url, :short_code)
   end
 
   def generate_unique_short_code

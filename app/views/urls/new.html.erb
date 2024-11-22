@@ -128,6 +128,13 @@
   </head>
   <body>
     <div class="container">
+    
+      <% if flash[:error] %>
+        <div class="notification error">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+
       <div class="form-container">
         <div class="text-center">
           <h1>🌟 URL Shortener</h1>
@@ -137,6 +144,11 @@
           <div>
             <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
             <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl" %>
+          </div>
+
+          <div>
+            <%= form.label :short_code, "Enter custom shortcode (optional)", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :short_code, placeholder: "Custom shortcode", class: "input-field", id: "shortCode" %>
           </div>
           
           <div>
