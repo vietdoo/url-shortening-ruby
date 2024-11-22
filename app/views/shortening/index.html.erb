@@ -168,7 +168,7 @@
                   const resultHref = `<%= shortened_url_result_path('') %>?id=${data.hash_id}`;
                   window.location.href = resultHref;
                 } else {
-                  showNotification(data.error, "error");
+                  showNotification(data.message, "error");
                   console.error('Error Response:', data);
                 }
               })
