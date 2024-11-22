@@ -1,5 +1,7 @@
 class Url < ApplicationRecord
     before_create :generate_hash_id
+    
+    validates :short_code, length: { in: 4..30 }, allow_blank: false
 
     private
 
