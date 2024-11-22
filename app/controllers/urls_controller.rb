@@ -12,6 +12,8 @@ class UrlsController < ApplicationController
 
     if Url.exists?(short_code: @url.short_code)
       flash[:error] = "Shortcode already exists. Please try another one."
+      flash[:original_url] = params[:url][:original_url]
+      flash[:short_code] = params[:url][:short_code]
       redirect_to shortening_url_path
     elsif @url.save
       flash[:success] = "URL shortened successfully!"

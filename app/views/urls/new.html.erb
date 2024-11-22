@@ -138,12 +138,12 @@
         <%= form_with model: @url, url: encode_path, method: :post, local: true, id: "urlForm" do |form| %>
           <div>
             <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
-            <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl" %>
+            <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl", value: flash[:original_url] %>
           </div>
 
           <div>
             <%= form.label :short_code, "Enter custom shortcode (optional)", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :short_code, placeholder: "Custom shortcode", class: "input-field", id: "shortCode" %>
+            <%= form.text_field :short_code, placeholder: "Custom shortcode", class: "input-field", id: "shortCode", value: flash[:short_code] %>
           </div>
           
           <div>
