@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 All URLs</title>
+    <title>URL History</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -34,16 +34,22 @@
         border-radius: 12px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         width: 100%;
-        
         box-sizing: border-box;
+        overflow: hidden;
       }
 
-      h1 {
+      .content-container h1 {
         font-size: 3rem;
         font-weight: 700;
         color: #1f2937;
         margin-bottom: 20px;
         text-align: center;
+      }
+
+      .content-container p {
+        font-size: 1.2rem;
+        color: #6b7280;
+        margin-bottom: 15px;
       }
 
       table {
@@ -75,28 +81,6 @@
         background-color: #f9fafb;
       }
 
-      .btn-copy, .btn-home {
-        background: linear-gradient(90deg, #6366f1, #ec4899);
-        color: #fff;
-        font-size: 1.2rem;
-        font-weight: 600;
-        padding: 12px 22px;
-        border-radius: 8px;
-        width: auto;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        margin-top: 20px;
-      }
-
-      .btn-copy:hover, .btn-home:hover {
-        transform: scale(1.05);
-      }
-
-      .btn-copy:focus, .btn-home:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
-      }
-
       .footer-text {
         font-size: 1rem;
         color: #6b7280;
@@ -118,17 +102,14 @@
   <body>
     <div class="container">
       <div class="content-container">
-        <h1 class="text-3xl font-bold mb-4">All URLs</h1>
-
+        <h1 class="text-3xl font-bold mb-4">Your URL History</h1>
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Code</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Initialized</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Expired</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">HASH</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -136,16 +117,12 @@
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.original_url %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.short_code %></td>
-                <td class="px-6 py-4 whitespace-nowrap"><%= url.user_id %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.time_init %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= url.time_expired %></td>
-                <td class="px-6 py-4 whitespace-nowrap"><%= url.hash_id %></td>
-                
               </tr>
             <% end %>
           </tbody>
         </table>
-
         <div class="footer-text">
           <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
         </div>

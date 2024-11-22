@@ -1,10 +1,11 @@
 class UrlsController < ApplicationController
+  before_action :authenticate_user!, only: [:encode, :history]
   def new
     @url = Url.new
   end
 
   def encode
-    @url = Url.new(url_params)
+    @url = current_user.urls.new(url_params)
     @url.short_code = params[:url][:short_code].presence || generate_unique_short_code
     @url.time_init = Time.now
     expiration_days = params[:url][:expiration_days].to_i
@@ -51,6 +52,10 @@ class UrlsController < ApplicationController
     else
       render plain: "URL not found or expired"
     end
+  end
+
+  def history
+    @urls = current_user.urls
   end
 
   private

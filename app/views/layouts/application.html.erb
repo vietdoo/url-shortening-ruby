@@ -43,14 +43,55 @@
       .notification.info {
         background-color: #2196f3;
       }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header a {
+        margin-left: 10px;
+        text-decoration: none;
+        color: #6366f1;
+        font-weight: 600;
+      }
+
+      .header a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
 
   <body class="bg-gray-100 text-gray-900">
+    <div class="header">
+      <div>
+        <%= link_to 'Home', root_path %>
+        <% if user_signed_in? %>
+          <%= link_to 'History', history_urls_path %>
+        <% end %>
+      </div>
+      <div>
+        <% if user_signed_in? %>
+          <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Login', new_user_session_path %>
+          <%= link_to 'Sign Up', new_user_registration_path %>
+        <% end %>
+      </div>
+    </div>
+
     <div class="container mx-auto p-4">
       <% if flash[:error] %>
         <div id="flash-error" class="notification error show">
           <%= flash[:error] %>
+        </div>
+      <% elsif flash[:success] %>
+        <div id="flash-success" class="notification show">
+          <%= flash[:success] %>
         </div>
       <% end %>
       <%= yield %>
