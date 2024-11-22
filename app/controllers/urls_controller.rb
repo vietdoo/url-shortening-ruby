@@ -1,5 +1,7 @@
 class UrlsController < ApplicationController
   before_action :authenticate_user!, only: [:history]
+  skip_before_action :verify_authenticity_token, only: [:encode, :decode]
+
   def new
     @url = Url.new
   end
@@ -13,16 +15,11 @@ class UrlsController < ApplicationController
     @url.time_expired = Time.now + expiration_days.days
 
     if Url.exists?(short_code: @url.short_code)
-      flash[:error] = "Shortcode already exists. Please try another one."
-      flash[:original_url] = params[:url][:original_url]
-      flash[:short_code] = params[:url][:short_code]
-      redirect_to shortening_url_path
+      render json: { error: "Shortcode already exists. Please try another one." }, status: :unprocessable_entity
     elsif @url.save
-      flash[:success] = "URL shortened successfully!"
-      redirect_to shortened_url_result_path(id: @url.hash_id)
+      render json: { success: "URL shortened successfully!", short_code: @url.short_code, hash_id: @url.hash_id }, status: :ok
     else
-      flash[:error] = "Invalid URL. Please try again."
-      redirect_to shortening_url_path
+      render json: { error: "Invalid URL. Please try again." }, status: :unprocessable_entity  # error
     end
   end
 

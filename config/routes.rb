@@ -21,13 +21,13 @@ Rails.application.routes.draw do
   root 'urls#new'
 
   post "encode" => "urls#encode"
-  post "decode" => "urls#decode"
+  post "encode" => "urls#encode", as: :encode_url
+
   get "shortening-url" => "urls#new"
   get "urls" => "urls#index"
   get "shortened-url-result" => "urls#result", as: :shortened_url_result
-  get 'history' => 'urls#history', as: :history_urls
 
-  
+  get 'history' => 'urls#history', as: :history_urls
 
   get "/:short_code" => "urls#show", as: :short_url
 end

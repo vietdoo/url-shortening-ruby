@@ -59,29 +59,10 @@
         color: #333;
         background-color: #f9fafb;
         margin-bottom: 15px;
-        transition: all 0
-                .3s ease-in-out;
-      }
-
-      .input-field:focus {
-        border-color: #6366f1;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-      }
-
-      .select-field {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        font-size: 1rem;
-        color: #333;
-        background-color: #f9fafb;
-        margin-bottom: 25px;
         transition: all 0.3s ease-in-out;
       }
 
-      .select-field:focus {
+      .input-field:focus {
         border-color: #6366f1;
         outline: none;
         box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
@@ -128,14 +109,12 @@
   </head>
   <body>
     <div class="container">
-
-
       <div class="form-container">
         <div class="text-center">
           <h1>🌟 URL Shortener</h1>
           <p>Shorten your links effortlessly with just one click!</p>
         </div>
-        <%= form_with model: @url, url: encode_path, method: :post, local: true, id: "urlForm" do |form| %>
+        <%= form_with model: @url, url: encode_url_path, method: :post, local: false, id: "urlForm" do |form| %>
           <div>
             <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
             <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl", value: flash[:original_url] %>
@@ -152,20 +131,53 @@
           </div>
           
           <div>
-            <%= form.submit "Shorten URL", class: "submit-button" %>
+            <button type="button" class="submit-button" id="submitButton">Shorten URL</button>
           </div>
+          
         <% end %>
 
         <script>
-        document.getElementById('urlForm').addEventListener('submit', function(event) {
-            const urlInput = document.getElementById('originalUrl').value;
-            const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+          document.getElementById('submitButton').addEventListener('click', function(event) {
+            console.log('Button clicked');
+ 
+            const form = document.getElementById('urlForm');
+            const formData = new FormData(form);
+            const formJSON = {
+              authenticity_token: formData.get('authenticity_token'),
+              url: {
+                expiration_days: formData.get('url[expiration_days]'),
+                original_url: formData.get('url[original_url]'),
+                short_code: formData.get('url[short_code]')
+              }
+            };
 
-            if (!urlPattern.test(urlInput)) {
-            event.preventDefault();
-            showNotification('Invalid URL format', 'error');
-            }
-        });
+            fetch(form.action, {
+              method: form.method,
+              headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formJSON)
+            })
+              .then(async (response) => {
+                const data = await response.json();
+
+                if (response.ok) {
+                  showNotification("URL shortened successfully!", "success");
+                  const resultHref = `<%= shortened_url_result_path('') %>?id=${data.hash_id}`;
+                  window.location.href = resultHref;
+                } else {
+                  showNotification(data.error, "error");
+                  console.error('Error Response:', data);
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                showNotification("An error occurred. Please try again.", "error");
+              });
+          });
+        
         </script>
 
         <div class="footer-text">
