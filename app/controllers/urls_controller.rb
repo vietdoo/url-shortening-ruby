@@ -15,21 +15,57 @@ class UrlsController < ApplicationController
     @url.time_expired = Time.now + expiration_days.days
 
     if Url.exists?(short_code: @url.short_code)
-      render json: { error: "Shortcode already exists. Please try another one." }, status: :unprocessable_entity
+      response = ApiResponse.new(
+        status: :unprocessable_entity,
+        message: "Shortcode already exists. Please try another one."
+      )
+      render json: response.to_h, status: response.status
     elsif @url.save
-      render json: { success: "URL shortened successfully!", short_code: @url.short_code, hash_id: @url.hash_id }, status: :ok
+      response = ApiResponse.new(
+        status: :ok,
+        data: {
+          original_url: @url.original_url,
+          short_code: @url.short_code,
+          time_expired: @url.time_expired,
+          result_page: "#{request.base_url}#{shortened_url_result_path}?id=#{@url.hash_id}",
+        },
+        message: "URL shortened successfully!"
+      )
+      render json: response.to_h, status: response.status
     else
-      render json: { error: "Invalid URL. Please try again." }, status: :unprocessable_entity  # error
+      response = ApiResponse.new(
+        status: :unprocessable_entity,
+        message: "Invalid URL. Please try again."
+      )
+      render json: response.to_h, status: response.status
     end
   end
 
   def decode
-    @url = Url.find_by(short_code: params[:short_code])
+    begin
+      @url = Url.find_by(short_code: decode_params[:short_code])
+    rescue ActionController::ParameterMissing => e
+      response = ApiResponse.new(
+        status: :unprocessable_entity,
+        message: "Missing parameter: #{e.param}. Please provide a valid short_code."
+      )
+      render json: response.to_h, status: :unprocessable_entity
+      return
+    end
 
     if @url && @url.time_expired > Time.now
-      render json: { original_url: @url.original_url }, status: :ok
+      response = ApiResponse.new(
+        status: :ok,
+        data: { original_url: @url.original_url },
+        message: "URL decoded successfully!"
+      )
+      render json: response.to_h, status: response.status
     else
-      render json: { error: "URL not found or expired" }, status: :not_found
+      response = ApiResponse.new(
+        status: :not_found,
+        message: "URL not found or expired."
+      )
+      render json: response.to_h, status: response.status
     end
   end
 
@@ -66,6 +102,10 @@ class UrlsController < ApplicationController
 
   def url_params
     params.require(:url).permit(:original_url, :short_code)
+  end
+
+  def decode_params
+    params.require(:url).permit(:short_code)
   end
 
   def generate_unique_short_code

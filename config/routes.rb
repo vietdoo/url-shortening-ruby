@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   root 'urls#new'
 
-  post "encode" => "urls#encode"
+  post "decode" => "urls#decode", as: :decode_url
   post "encode" => "urls#encode", as: :encode_url
 
   get "shortening-url" => "urls#new"
