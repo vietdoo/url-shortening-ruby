@@ -10,4 +10,9 @@ class UrlTest < ActiveSupport::TestCase
     url = Url.new(original_url: "https://example.com", short_code: "short123")
     assert url.save, "Failed to save the url with a valid original_url"
   end
+
+  test "should not save url with short_code less than 4 characters" do
+    url = Url.new(original_url: "https://example.com", short_code: "abc")
+    assert_not url.save, "Saved the url with short_code less than 4 characters"
+  end
 end
