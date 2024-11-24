@@ -13,11 +13,19 @@ class Url < ApplicationRecord
     end
 
     def valid_original_url
-        uri = URI.parse(original_url)
-        unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:original_url, "is not a valid URL")
-        end
-    rescue URI::InvalidURIError
+    if original_url.blank?
+        errors.add(:original_url, "can't be blank")
+        return
+    end
+
+    # Proceed with URL validation
+    uri = URI.parse(original_url)
+    unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
         errors.add(:original_url, "is not a valid URL")
     end
+    rescue URI::InvalidURIError
+    errors.add(:original_url, "is not a valid URL")
+    end
+
+    
 end

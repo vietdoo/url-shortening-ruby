@@ -20,7 +20,7 @@ class EncodingControllerTest < ActionDispatch::IntegrationTest
     post encode_url_path, params: { url: { original_url: @invalid_url, expiration_days: @expiration_days } }
     assert_response :unprocessable_entity
     json_response = JSON.parse(response.body)
-    assert_equal "Original url is not a valid URL", json_response["message"]
+    assert_equal "not a valid URL", json_response["message"]
   end
 
   test "should encode a URL with a custom short code" do
@@ -76,6 +76,6 @@ class EncodingControllerTest < ActionDispatch::IntegrationTest
     post encode_url_path, params: { url: { original_url: @valid_url, expiration_days: "invalid" } }
     assert_response :unprocessable_entity
     json_response = JSON.parse(response.body)
-    assert_equal "Expiration days is not a number", json_response["message"]
+    assert_equal "Expiration days must be a valid number", json_response["message"]
   end
 end
