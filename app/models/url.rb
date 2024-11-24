@@ -18,7 +18,6 @@ class Url < ApplicationRecord
         return
     end
 
-    # Proceed with URL validation
     uri = URI.parse(original_url)
     unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
         errors.add(:original_url, "is not a valid URL")

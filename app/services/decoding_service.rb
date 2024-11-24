@@ -1,10 +1,14 @@
 class DecodingService
-  def initialize(base_url, short_code)
+  def initialize(base_url, short_code, cache)
     @base_url = base_url
     @short_code = short_code
+    @cache = cache
   end
 
   def decode_url
+    cached_url = @cache.get(@short_code)
+    return cached_url if cached_url
+
     url = Url.find_by(short_code: @short_code)
 
     if url.nil?
@@ -15,7 +19,7 @@ class DecodingService
       return ApiResponse.new(status: :not_found, message: "URL has expired.")
     end
 
-    ApiResponse.new(
+    response = ApiResponse.new(
       status: :ok,
       data: {
         original_url: url.original_url,
@@ -25,5 +29,8 @@ class DecodingService
       },
       message: "URL decoded successfully!"
     )
+
+    @cache.put(@short_code, response)
+    response
   end
 end
