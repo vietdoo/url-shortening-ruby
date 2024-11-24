@@ -1,9 +1,6 @@
 class DecodingController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:decode]
 
-  CACHE_CAPACITY = 100
-  CACHE = LFUCache.new(CACHE_CAPACITY)
-
   def decode
     unless decode_params[:short_code].present?
       response = ApiResponse.new(
@@ -14,7 +11,7 @@ class DecodingController < ApplicationController
       return
     end
 
-    decode_service = DecodingService.new(request.base_url, decode_params[:short_code], CACHE)
+    decode_service = DecodingService.new(request.base_url, decode_params[:short_code])
     response = decode_service.decode_url
 
     render json: response.to_h, status: response.status
