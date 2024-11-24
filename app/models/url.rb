@@ -4,10 +4,20 @@ class Url < ApplicationRecord
     before_create :generate_hash_id
     
     validates :short_code, length: { in: 4..30 }, allow_blank: false
+    validate :valid_original_url
 
     private
 
     def generate_hash_id
-    self.hash_id = SecureRandom.uuid
+        self.hash_id = SecureRandom.uuid
+    end
+
+    def valid_original_url
+        uri = URI.parse(original_url)
+        unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+        errors.add(:original_url, "is not a valid URL")
+        end
+    rescue URI::InvalidURIError
+        errors.add(:original_url, "is not a valid URL")
     end
 end

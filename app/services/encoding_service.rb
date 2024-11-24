@@ -9,6 +9,7 @@ class EncodingService
   end
 
   def encode_url()
+  
     url = Url.new(original_url: @original_url)
     url.short_code = @short_code.presence || generate_unique_short_code
     url.time_init = Time.now
@@ -33,7 +34,7 @@ class EncodingService
     else
       ApiResponse.new(
         status: :unprocessable_entity,
-        message: "Invalid URL. Please try again."
+        message: url.errors.full_messages.join(", ")
       )
     end
   end
