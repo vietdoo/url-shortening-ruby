@@ -16,8 +16,8 @@ class Url < ApplicationRecord
     end
 
     def valid_original_url
-    if original_url.blank?
-        errors.add(:original_url, "can't be blank")
+        if original_url.blank?
+            errors.add(:original_url, "can't be blank")
         return
     end
 
@@ -26,7 +26,7 @@ class Url < ApplicationRecord
         errors.add(:original_url, "is not a valid URL")
     end
     rescue URI::InvalidURIError
-    errors.add(:original_url, "is not a valid URL")
+        errors.add(:original_url, "is not a valid URL")
     end
 
     

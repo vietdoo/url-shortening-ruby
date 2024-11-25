@@ -5,6 +5,7 @@ class EncodingControllerTest < ActionDispatch::IntegrationTest
     @valid_url = "https://example.com"
     @invalid_url = "invalid_url"
     @short_code = "short123"
+    @invalid_short_code = "lậptrìnhruby"
     @existing_short_code = urls(:one).short_code
     @expiration_days = 30
   end
@@ -78,4 +79,12 @@ class EncodingControllerTest < ActionDispatch::IntegrationTest
     json_response = JSON.parse(response.body)
     assert_equal "Expiration days must be a valid number", json_response["message"]
   end
+  
+  test "should not encode a URL with a short code that contains invalid characters" do
+    post encode_url_path, params: { url: { original_url: @valid_url, short_code: @invalid_short_code, expiration_days: @expiration_days } }
+    assert_response :unprocessable_entity
+    json_response = JSON.parse(response.body)
+    assert_equal "Short code must only contain letters and numbers", json_response["message"]
+  end
+
 end
