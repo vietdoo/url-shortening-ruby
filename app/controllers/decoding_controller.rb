@@ -1,6 +1,14 @@
 class DecodingController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:decode]
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    response = ApiResponse.new(
+      status: :unprocessable_entity,
+      message: "Missing parameter: short_code. Please provide a valid short_code."
+    )
+    render json: response.to_h, status: :unprocessable_entity
+  end
+
   def decode
     unless decode_params[:short_code].present?
       response = ApiResponse.new(

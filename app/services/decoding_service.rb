@@ -21,7 +21,8 @@ class DecodingService
         original_url: url.original_url,
         short_url: "#{@base_url}/#{@short_code}",
         short_code: @short_code,
-        time_expired: url.time_expired
+        time_expired: url.time_expired,
+        hash_id: url
       },
       message: "URL decoded successfully!"
     )

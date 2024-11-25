@@ -8,7 +8,6 @@ class DecodingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should decode a valid short code" do
-    p @url
     post decode_url_path, params: { url: { short_code: @valid_short_code } }
     assert_response :success
     json_response = JSON.parse(response.body)
