@@ -10,6 +10,20 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    def create_and_update_url
+      url = Url.create!(
+        original_url: "https://oivan.com/",
+        short_code: "oivan",
+        time_init: Time.now,
+        time_expired: Time.now + 30.days
+      )
+      urls(:one).update(
+        original_url: url.original_url,
+        short_code: url.short_code,
+        time_init: url.time_init,
+        time_expired: url.time_expired
+      )
+      url
+    end
   end
 end
