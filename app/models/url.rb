@@ -3,7 +3,10 @@ class Url < ApplicationRecord
     
     before_create :generate_hash_id
     
-    validates :short_code, length: { in: 4..30 }, allow_blank: false
+    validates :short_code, 
+            length: { in: 4..30 }, 
+            format: { with: /\A[a-zA-Z0-9]+\z/, message: "must only contain letters and numbers" },
+            allow_blank: false
     validate :valid_original_url
 
     private
