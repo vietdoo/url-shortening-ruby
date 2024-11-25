@@ -19,7 +19,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-RUN apt-get install -y libpq-dev
+RUN apt install libpq-dev -y
 
 # Set production environment
 ENV RAILS_ENV="production" \
