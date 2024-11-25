@@ -19,14 +19,6 @@ module ActiveSupport
         time_init: Time.now,
         time_expired: Time.now + 30.days,
       )
-      # urls(:one).update(
-      #   original_url: url.original_url,
-      #   short_code: url.short_code,
-      #   time_init: url.time_init,
-      #   time_expired: url.time_expired
-      # )
-      # p Url.last(10)
-      
       url
     end
   end

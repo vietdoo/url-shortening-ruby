@@ -69,7 +69,11 @@
   <body class="bg-gray-100 text-gray-900">
     <div class="header">
       <div>
-        <%= link_to 'Home', root_path %>
+        <%= link_to 'Home', root_path %> 
+        
+
+        <%= Rails.env %>
+        
         <% if user_signed_in? %>
           <%= link_to 'History', history_urls_path %>
         <% end %>
