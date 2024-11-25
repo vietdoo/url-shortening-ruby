@@ -1,4 +1,4 @@
-# class LFUCache
+class LFUCache
 #   Node = Struct.new(:key, :value, :freq)
 
 #   def initialize(capacity)
@@ -59,4 +59,4 @@
 #     @cache.delete(node.key)
 #     @freq_map.delete(@min_freq) if @freq_map[@min_freq].empty?
 #   end
-# end
+end
