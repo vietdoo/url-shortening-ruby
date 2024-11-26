@@ -9,15 +9,18 @@ This is a simple URL shortening service that takes a long URL and converts it in
 - Shorten long URLs into compact, shareable links
 - Custom short code support
 - URL expiration 
+- Data stored in a database.
 - User authentication with Devise
 - API endpoints for URL encoding/decoding
 - URL history tracking
 - Security protections against common attacks
+- Rate limiting for API endpoints
 
 ### Prerequisites
 - Ruby 3.2.2
 - Rails 8.0.0
-- SQLite3 (or another database of your choice)
+- SQLite3 (development)
+- Postgres (optional, for production deployment)
 - Docker (optional, for containerized deployment)
 
 ### Installation
@@ -36,11 +39,12 @@ This is a simple URL shortening service that takes a long URL and converts it in
 3. **Set up the database:**
     ```sh
     rails db:setup
+    rails db:migrate
     ```
 
 4. **Run the server:**
     ```sh
-    rails server
+    rails s
     ```
 
 5. **Access the application:**
@@ -141,41 +145,72 @@ curl -X POST http://localhost:3000/decode \
 ```
 
 
-### Security Considerations
+### My Implementation
 
-#### Potential Attack Vectors
+#### Architecture
+The application is built using the Model-View-Controller (MVC) architecture. The models handle the data logic, the views handle the user interface, and the controllers handle the application logic.
 
-1. **SQL Injection:**
-    - Use parameterized queries to prevent SQL injection attacks.
-    - Validate and sanitize all user inputs.
 
-2. **Cross-Site Scripting (XSS):**
-    - Use Rails' built-in helpers to escape HTML.
-    - Validate and sanitize user inputs.
+#### URL Shortening Algorithm
 
-3. **Cross-Site Request Forgery (CSRF):**
-    - Enable CSRF protection in Rails.
-    - Use authenticity tokens in forms.
+- **Short Code Generation:**
+Short codes are generated using a combination of characters and numbers: `A-Z`, `a-z`, `0-9` = 26 + 26 + 10 = 62 characters with length from 5 to 8, which results in a total of 62^5 + 62^6 + 62^7 + 62^8 possible combinations. This total is nearly **221.9 Trillion** possible combinations.
 
-4. **Rate Limiting:**
-    - Implement rate limiting to prevent abuse of the service.
-    - Use gems like `rack-attack` to throttle requests.
+- **Collision Handling:**
+To handle collisions, the application checks if the generated short code already exists in the database. If a collision is detected, the application generates a new short code until a unique one is found.
 
-5. **Data Validation:**
-    - Validate URLs to ensure they are well-formed.
-    - Check for malicious URLs that could be used for phishing or malware distribution.
+- **Expiration:**
+Short URLs can be set to expire after a certain number of days. The application checks the expiration date when redirecting to the original URL and returns an error if the short URL has expired.
 
-### Scalability and Collision Handling
+#### User Authentication
 
-1. **Scalability:**
-    - Use a distributed database or a cloud-based database service to handle increased load.
-    - Implement caching mechanisms to reduce database load.
-    - Use background jobs for tasks that can be processed asynchronously.
+- **Devise Gem:**
+User authentication is implemented using the Devise gem. Users can register, log in, and log out of the application.
 
-2. **Collision Handling:**
-    - Use a sufficiently large character set and length for short codes to minimize the risk of collisions.
-    - Implement a retry mechanism to generate a new short code if a collision is detected.
-    - Use a hash function to generate unique short codes based on the original URL.
+
+#### API Endpoints
+Using the Rails API mode, the application provides RESTful API endpoints for encoding and decoding URLs.
+
+#### Database Schema
+The application uses a SQLite database in development and can be configured to use Postgres in production. The database schema includes tables for users, urls. 
+
+
+#### Security 
+
+**SQL Injection:**
+Use parameterized queries to prevent SQL injection attacks.
+Validate and sanitize all user inputs.
+
+**Cross-Site Scripting (XSS):**
+Use Rails' built-in helpers to escape HTML.
+Validate and sanitize user inputs.
+
+**Cross-Site Request Forgery (CSRF):**
+Enable CSRF protection in Rails.
+Use authenticity tokens in forms.
+**Rate Limiting:**
+Using the Rack::Attack gem to implement rate limiting for API endpoints.
+
+**Data Validation:**
+Validate URLs to ensure they are well-formed.
+
+### Future Improvements
+
+**Caching.**
+Using a caching mechanism like Redis to store frequently accessed URLs and reduce database load.
+
+**Load Balancing:**
+Implement load balancing to distribute traffic across multiple servers.
+
+**Monitoring:**
+Set up monitoring tools to track application performance and detect issues.
+
+**Logging:**
+Implement logging to track user activity and debug issues.
+
+**More Efficient Collision Handling:**
+Develop a more efficient collision handling algorithm to reduce the risk of collisions when the number of short URLs increases.
+
 
 ### Deployment
 
@@ -190,7 +225,7 @@ curl -X POST http://localhost:3000/decode \
         ```
 
 2. **Using a Cloud Service:**
-    - Deploy the application to a cloud service like Heroku, AWS, or DigitalOcean.
+    - Deploy the application to a cloud service like Heroku.
     - Set up environment variables and database configurations as needed.
 
 ### Testing
