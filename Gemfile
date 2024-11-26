@@ -20,6 +20,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem 'devise'
+gem 'rack-attack'
 
 gem "sqlite3", group: [:development, :test]
 gem "pg", group: :production
