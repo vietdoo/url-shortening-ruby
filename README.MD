@@ -74,17 +74,70 @@ The application provides both a web interface and API endpoints:
 ### API Endpoints
 
 #### Encode URL
+Create a shortened version of a given URL.
+
+`POST /encode`
+
+Pass all parameters in the url object.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| original_url | string | The original URL to shorten |
+| short_code | string | The custom short code (optional) |
+| expiration_days | integer | The number of days until the short URL expires (optional) |
+
 ```bash
 curl -X POST http://localhost:3000/encode \
   -H "Content-Type: application/json" \
-  -d '{"url": {"original_url": "https://example.com", "short_code": "custom123"}}'
+  -d '"url": {
+        "expiration_days": 10,
+        "original_url": "https://oivan.com/",
+        "short_code": ""
+    }'
+```
+
+#### Response
+```json
+{
+    "status": "ok",
+    "data": {
+        "original_url": "https://oivan.com/",
+        "short_code": "5CmsQZbd",
+        "time_expired": "2024-12-25T13:47:30.558+07:00",
+        "result_page": "http://127.0.0.1:3000/shortened-url-result?id=f88102ae-20af-4d40-ad3a-6ba2304d2fee"
+    },
+    "message": "URL shortened successfully!"
+}
 ```
 
 #### Decode URL
+`POST /decode`
+
+#### Parameters
+Pass all parameters in the url object.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| short_code | string | The short code to decode|
+
+
 ```bash
 curl -X POST http://localhost:3000/decode \
   -H "Content-Type: application/json" \
-  -d '{"url": {"short_code": "abc123"}}'
+  -d '{"url": {"short_code": "5CmsQZbd"}}'
+```
+#### Response
+```json
+{
+    "status": "ok",
+    "data": {
+        "original_url": "https://oivan.com/",
+        "short_url": "http://127.0.0.1:3000/5CmsQZbd",
+        "short_code": "5CmsQZbd",
+        "time_expired": "2024-12-25T13:47:30.558+07:00"
+    },
+    "message": "URL decoded successfully!"
+}
 ```
 
 
@@ -144,7 +197,7 @@ curl -X POST http://localhost:3000/decode \
 
 - **Run the test suite:**
     ```sh
-    bin/rails test
+    rails test
     ```
 
 ### Contributing
