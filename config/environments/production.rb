@@ -89,7 +89,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.force_ssl = true
+  # config.force_ssl = true
 
   # Use PostgreSQL as the database for Active Record
   config.active_record.database_selector = { delay: 2.seconds }

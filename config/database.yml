@@ -44,24 +44,16 @@ production:
     port: <%= ENV['DB_PORT'] || 5432 %>
     replica: true
   cache:
-    adapter: postgresql
-    encoding: unicode
+    adapter: sqlite3
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    database: <%= ENV['DB_NAME'] %>
-    username: <%= ENV['DB_USERNAME'] %>
-    password: <%= ENV['DB_PASSWORD'] %>
-    host: <%= ENV['DB_HOST'] %>
-    port: <%= ENV['DB_PORT'] || 5432 %>
+    timeout: 5000
+    database: storage/production_cache.sqlite3
     migrations_paths: db/cache_migrate
   queue:
-    adapter: postgresql
-    encoding: unicode
+    adapter: sqlite3
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    database: <%= ENV['DB_NAME'] %>
-    username: <%= ENV['DB_USERNAME'] %>
-    password: <%= ENV['DB_PASSWORD'] %>
-    host: <%= ENV['DB_HOST'] %>
-    port: <%= ENV['DB_PORT'] || 5432 %>
+    timeout: 5000
+    database: storage/production_queue.sqlite3
     migrations_paths: db/queue_migrate
   cable:
     adapter: postgresql
