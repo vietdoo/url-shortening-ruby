@@ -10,6 +10,14 @@ class DecodingController < ApplicationController
   end
 
   def decode
+
+    begin
+      json_params = JSON.parse(request.body.read)
+    rescue JSON::ParserError => e
+      response = ApiResponse.new(status: :bad_request, message: "Invalid JSON")
+      return render json: response.to_h, status: response.status
+    end
+
     unless decode_params[:short_code].present?
       response = ApiResponse.new(
         status: :unprocessable_entity,
