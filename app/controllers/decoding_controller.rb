@@ -9,18 +9,25 @@ class DecodingController < ApplicationController
   end
 
   def decode
-
     begin
       json_params = JSON.parse(request.body.read)
+      params.merge!(json_params)
     rescue JSON::ParserError => e
-      return ApiResponse.new(status: :bad_request, message: "Invalid JSON")
+      return render json: ApiResponse.new(status: :bad_request, message: "Invalid JSON").to_h, status: :bad_request
+    end
+    
+    unless params[:url].present?
+      return render json: ApiResponse.new(
+        status: :unprocessable_entity,
+        message: "Missing parameter. Please provide a valid URL object."
+      ).to_h, status: :unprocessable_entity
     end
 
-    unless decode_params[:short_code].present?
-      return ApiResponse.new(
+    unless params[:url][:short_code].present?
+      return render json: ApiResponse.new(
         status: :unprocessable_entity,
         message: "Missing parameter: short_code. Please provide a valid short_code."
-      )
+      ).to_h, status: :unprocessable_entity
     end
 
     
@@ -38,9 +45,6 @@ class DecodingController < ApplicationController
       response =  ApiResponse.new(status: :not_found, message: "URL has expired.")
       return render json: response.to_h, status: response.status
     end
-    p "-" * 60
-    p @url 
-    p "-" * 60
 
     response = ApiResponse.new(
       status: :ok,

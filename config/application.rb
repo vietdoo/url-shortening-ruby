@@ -12,11 +12,10 @@ module UrlShorteningRuby
     config.load_defaults 8.0
 
     config.after_initialize do
-      #log ENV['DATABASE_URL']
-      p "-" * 50
-      p "Current environment: #{Rails.env}"
-      p "Database HOST: #{ENV['DB_HOST']}"
-      p "-" * 50
+      # p "-" * 50
+      # p "Current environment: #{Rails.env}"
+      # p "Database HOST: #{ENV['DB_HOST']}"
+      # p "-" * 50
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

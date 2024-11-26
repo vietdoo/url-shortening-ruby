@@ -10,6 +10,14 @@ class EncodingController < ApplicationController
       return render json: response.to_h, status: response.status
     end
 
+    unless params[:url].present?
+      return render json: ApiResponse.new(
+        status: :unprocessable_entity,
+        message: "Missing parameter. Please provide a valid URL object."
+      ).to_h, status: :unprocessable_entity
+    end
+
+
     @url = user_signed_in? ? current_user.urls.new(url_params) : Url.new(url_params)
     
     validation_error = validate_expiration_days
