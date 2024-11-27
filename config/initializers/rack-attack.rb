@@ -1,6 +1,6 @@
 class Rack::Attack
   throttle('req/ip', limit: 10, period: 1.minute) do |req|
-    if req.path == '/encode' || req.path == '/decode'
+    if req.path.start_with?('/api/')
       req.ip
     end
   end

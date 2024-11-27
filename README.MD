@@ -71,7 +71,7 @@ The application provides both a web interface and API endpoints:
   - Register: `/users/sign_up`  
 
 - **View URL History**:  
-  Access `/history` to see a list of all shortened URLs created by the user.
+  Access `/users/history` to see a list of all shortened URLs created by the user.
 
 ---
 
@@ -80,7 +80,7 @@ The application provides both a web interface and API endpoints:
 #### Encode URL
 Create a shortened version of a given URL.
 
-`POST /encode`
+`POST /api/v1/encode`
 
 Pass all parameters in the url object.
 
@@ -91,7 +91,7 @@ Pass all parameters in the url object.
 | expiration_days | integer | The number of days until the short URL expires (optional) |
 
 ```bash
-curl -X POST http://localhost:3000/encode \
+curl -X POST http://localhost:3000/api/v1/encode \
   -H "Content-Type: application/json" \
   -d '"url": {
         "expiration_days": 10,
@@ -115,7 +115,7 @@ curl -X POST http://localhost:3000/encode \
 ```
 
 #### Decode URL
-`POST /decode`
+`POST /api/v1/decode`
 
 #### Parameters
 Pass all parameters in the url object.
@@ -126,7 +126,7 @@ Pass all parameters in the url object.
 
 
 ```bash
-curl -X POST http://localhost:3000/decode \
+curl -X POST http://localhost:3000/api/v1/decode \
   -H "Content-Type: application/json" \
   -d '{"url": {"short_code": "5CmsQZbd"}}'
 ```
@@ -148,7 +148,6 @@ curl -X POST http://localhost:3000/decode \
 ### My Implementation
 
 #### Architecture
-The application is built using the Model-View-Controller (MVC) architecture. The models handle the data logic, the views handle the user interface, and the controllers handle the application logic.
 
 
 #### URL Shortening Algorithm

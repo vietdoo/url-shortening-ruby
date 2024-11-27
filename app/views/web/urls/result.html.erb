@@ -100,7 +100,7 @@
         <% if @url %>
           <p class="mb-2"><strong>Original URL:</strong> <%= @url.original_url %></p>
           <p class="mb-2"><strong>Shortened URL:</strong> 
-            <a href="<%= web_short_url_url(@url.short_code) %>" target="_blank" class="text-blue-500 underline" id="shortenedUrl">
+            <a href="<%= short_url_url(@url.short_code) %>" target="_blank" class="text-blue-500 underline" id="shortenedUrl">
               <%= request.base_url + "/" + @url.short_code %>
             </a>
           </p>
@@ -108,12 +108,12 @@
           <p class="mb-4"><strong>Expiration Time:</strong> <%= @url.time_expired %></p>
           
           <div class="footer-text">
-            <p>&copy; <a href="<%= web_shortening_url_path %>">Back to Home</a></p>
+            <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
           </div>
         <% else %>
           <p>URL not found or expired.</p>
           <div class="footer-text">
-            <p>&copy; <a href="<%= web_shortening_url_path %>">Back to Home</a></p>
+            <p>&copy; <a href="<%= shortening_url_path %>">Back to Home</a></p>
           </div>
         <% end %>
       </div>

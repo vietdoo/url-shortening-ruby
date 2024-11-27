@@ -9,7 +9,11 @@ module Api
         service = UrlEncodingService.new(url, url_params.merge(expiration_days: expiration_days))
         response = service.encode
 
-        render json: response.to_h, status: response.status
+        if response.success?
+          render json: UrlSerializer.new(response.data, "URL shortened successfully!").as_json, status: :ok
+        else
+          render json: ErrorSerializer.new(response.message).as_json, status: :unprocessable_entity 
+        end
       end
 
       private

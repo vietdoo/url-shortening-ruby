@@ -8,7 +8,11 @@ module Api
         service = UrlDecodingService.new(decode_params[:short_code])
         response = service.decode
 
-        render json: response.to_h, status: response.status
+        if response.success?
+          render json: UrlSerializer.new(response.data, "URL decoded successfully!").as_json, status: :ok
+        else
+          render json: ErrorSerializer.new(response.message).as_json, status: response.status
+        end
       end
 
       private
