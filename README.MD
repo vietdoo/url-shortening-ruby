@@ -108,6 +108,7 @@ curl -X POST http://localhost:3000/api/v1/encode \
     "data": {
         "original_url": "https://oivan.com/",
         "short_code": "5CmsQZbd",
+        "short_url": "http://localhost:3000/5CmsQZbd",
         "time_expired": "2024-12-25T13:47:30.558+07:00",
         "result_page": "http://127.0.0.1:3000/shortened-url-result?id=f88102ae-20af-4d40-ad3a-6ba2304d2fee"
     },
@@ -137,9 +138,10 @@ curl -X POST http://localhost:3000/api/v1/decode \
     "status": "ok",
     "data": {
         "original_url": "https://oivan.com/",
-        "short_url": "http://127.0.0.1:3000/5CmsQZbd",
         "short_code": "5CmsQZbd",
-        "time_expired": "2024-12-25T13:47:30.558+07:00"
+        "short_url": "http://127.0.0.1:3000/5CmsQZbd",
+        "time_expired": "2024-12-25T13:47:30.558+07:00",
+        "result_page": "http://localhost:3000/shortened-url-result?id=f88102ae-20af-4d40-ad3a-6ba2304d2fee"
     },
     "message": "URL decoded successfully!"
 }
