@@ -15,6 +15,7 @@ This is a simple URL shortening service that takes a long URL and converts it in
 - URL history tracking
 - Security protections against common attacks
 - Rate limiting for API endpoints
+- Continuous integration and deployment pipelines
 
 ### Prerequisites
 - Ruby 3.2.2
@@ -47,7 +48,7 @@ This is a simple URL shortening service that takes a long URL and converts it in
     rails s
     ```
 
-5. **Access the application:**
+5. **Access the web application:**
     Open your browser and navigate to `http://localhost:3000`.
 
 ### Usage
@@ -58,7 +59,7 @@ The application provides both a web interface and API endpoints:
 # Web Interface Overview
 
 - **Create Short URLs**:  
-  Access the homepage at `/` to generate new short URLs.  
+  Access the homepage at `/` to create a new short URL. Enter the original URL, custom short code (optional), and expiration date (optional) to generate a short URL.
 
 - **View Shortened URL Results**:  
   Visit `/shortened-url-result?id={unique-id}` to view the details of a specific short URL. This page is automatically displayed after a new short URL is created.  
@@ -149,11 +150,44 @@ curl -X POST http://localhost:3000/api/v1/decode \
 
 #### Architecture
 
+1. **Controllers**:
+   - **API Controllers**: Handle API requests and responses.
+     - Located in `app/controllers/api/v1/`
+     - Example: `EncodingController`, `DecodingController`
+   - **Web Controllers**: Handle web requests for the user interface.
+     - Located in `app/controllers/web/`
+     - Example: `ShorteningController`
+
+2. **Models**:
+   - Represent the data and business logic of the application.
+   - Located in `app/models/`
+   - Example: `Url`, `User`
+
+3. **Services**:
+   - Encapsulate complex business logic and operations.
+   - Located in `app/services/`
+   - Example: `UrlEncodingService`, `UrlDecodingService`
+
+4. **Forms**:
+   - Handle form submissions and validations.
+   - Located in `app/forms/`
+   - Example: `UrlEncodeForm`
+
+5. **Serializers**:
+   - Format JSON responses for API endpoints.
+   - Located in `app/serializers/`
+   - Example: `UrlSerializer`, `ErrorSerializer`
+
+6. **Views**:
+   - Contain the HTML templates for rendering the user interface.
+   - Located in `app/views/`
+   - Example: `web/shortening/index.html.erb`
+
 
 #### URL Shortening Algorithm
 
 - **Short Code Generation:**
-Short codes are generated using a combination of characters and numbers: `A-Z`, `a-z`, `0-9` = 26 + 26 + 10 = 62 characters with length from 5 to 8, which results in a total of 62^5 + 62^6 + 62^7 + 62^8 possible combinations. This total is nearly **221.9 Trillion** possible combinations.
+Short codes are generated using a combination of characters and numbers: `A-Z`, `a-z`, `0-9` = 26 + 26 + 10 = 62 characters with length random [5..8], which results in a total of 62^5 + 62^6 + 62^7 + 62^8 possible combinations. This total is nearly **221.9 Trillion** possible combinations.
 
 - **Collision Handling:**
 To handle collisions, the application checks if the generated short code already exists in the database. If a collision is detected, the application generates a new short code until a unique one is found.
@@ -204,6 +238,13 @@ Using a caching mechanism like Redis to store frequently accessed URLs and reduc
 **Load Balancing:**
 Implement load balancing to distribute traffic across multiple servers.
 
+**Database Sharding:**
+Shard the database to distribute data across multiple servers and improve performance.
+
+**Tracking and Analytics:**
+Implement tracking and analytics to monitor user activity and improve the service.
+
+
 **Monitoring:**
 Set up monitoring tools to track application performance and detect issues.
 
@@ -250,4 +291,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ---
 
-This README provides detailed instructions on how to set up, use, and deploy the URL shortening service, along with considerations for security, scalability, and collision handling.
+This README provides detailed instructions on how to set up, use, and deploy the URL shortening service. It includes information on features, prerequisites, installation, usage, API endpoints, architecture, security, future improvements, deployment, testing.

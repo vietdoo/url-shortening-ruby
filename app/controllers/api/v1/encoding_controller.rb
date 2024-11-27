@@ -4,6 +4,7 @@ module Api
       def encode
         json_params = JSON.parse(request.body.read)
         params.merge!(json_params)
+ 
 
         form_valid = UrlEncodeForm.new(url_params.merge(expiration_days: params[:url][:expiration_days].presence || 30)).valid
 
@@ -13,7 +14,7 @@ module Api
         end
 
         url = user_signed_in? ? current_user.urls.new(url_params) : Url.new(url_params)
-        service = UrlEncodingService.new(url, url_params)
+        service = UrlEncodingService.new(url, url_params.merge(expiration_days: params[:url][:expiration_days].presence || 30))
         response = service.encode
 
         if response.success?
