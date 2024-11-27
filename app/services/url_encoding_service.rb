@@ -7,8 +7,6 @@ class UrlEncodingService
   end
 
   def encode
-    validation_error = validate_expiration_days
-    return validation_error if validation_error
 
     @url.short_code = @params[:short_code].presence || generate_unique_short_code
     @url.time_init = Time.now
@@ -27,17 +25,7 @@ class UrlEncodingService
 
   private
 
-  def validate_expiration_days
-    @expiration_days = @params[:expiration_days].presence || 30
-    unless @expiration_days.to_s.match?(/^\d+$/)
-      return OpenStruct.new(success: false, message: "Expiration days must be a valid number")
-    end
-
-    if @expiration_days.to_i <= 0 || @expiration_days.to_i > 30
-      return OpenStruct.new(success: false, message: "Expiration days must be a positive number between 1 and 30")
-    nil
-    end
-  end
+  
 
   def calculate_expiration_time
     Time.now + @params[:expiration_days].to_i.days
