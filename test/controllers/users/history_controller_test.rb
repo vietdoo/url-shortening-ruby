@@ -9,7 +9,7 @@ class HistoryControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get user_history_urls_url
+    get users_history_urls_url
     assert_response :success
   end
 
