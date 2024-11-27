@@ -174,6 +174,9 @@ Using the Rails API mode, the application provides RESTful API endpoints for enc
 #### Database Schema
 The application uses a SQLite database in development and can be configured to use Postgres in production. The database schema includes tables for users, urls. 
 
+#### CI/CD
+The application can be set up with continuous integration and continuous deployment pipelines using GitHub Actions for automated testing. If the tests pass and the code is on the `main` branch, the workflow triggers a deployment.
+
 
 #### Security 
 

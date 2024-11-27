@@ -114,7 +114,7 @@
           <h1>🌟 URL Shortener</h1>
           <p>Shorten your links effortlessly with just one click!</p>
         </div>
-        <%= form_with model: @url, url: encode_url_path, method: :post, local: false, id: "urlForm" do |form| %>
+        <%= form_with model: @url, url: api_v1_encode_url_path, method: :post, local: false, id: "urlForm" do |form| %>
           <div>
             <%= form.label :original_url, "Enter URL to shorten", class: "sr-only" %>
             <%= form.text_field :original_url, placeholder: "https://example.com", class: "input-field", id: "originalUrl", value: flash[:original_url] %>

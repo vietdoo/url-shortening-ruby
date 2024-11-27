@@ -9,13 +9,13 @@ class HistoryControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get history_urls_url
+    get user_history_urls_url
     assert_response :success
   end
 
   test "should redirect if not signed in" do
     sign_out @user
-    get history_urls_url
+    get users_history_urls_url
     assert_redirected_to new_user_session_url
   end
 
