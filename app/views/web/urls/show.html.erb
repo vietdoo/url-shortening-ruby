@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="0;url=<%= @original_url %>">
   <title>Redirecting...</title>
   <style>
     body {
@@ -29,17 +30,17 @@
   </div>
 
   <script>
-    let countdownElement = document.getElementById('countdown');
-    let countdown = 3;
+    # let countdownElement = document.getElementById('countdown');
+    # let countdown = 3;
 
-    setInterval(() => {
-      countdown--;
-      countdownElement.textContent = countdown;
-      if (countdown === 0) {
-        window.location.href = "<%= @original_url %>";
-        clearInterval();
-      }
-    }, 1000);
+    # setInterval(() => {
+    #   countdown--;
+    #   countdownElement.textContent = countdown;
+    #   if (countdown === 0) {
+    #     window.location.href = "<%= @original_url %>";
+    #     clearInterval();
+    #   }
+    # }, 1000);
   </script>
 </body>
 </html>

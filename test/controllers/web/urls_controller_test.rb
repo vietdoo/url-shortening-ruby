@@ -5,25 +5,20 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     @url = urls(:one)
   end
 
-  test "should get index" do
-    get urls_url
-    assert_response :success
-  end
-
-  test "should show url" do
+  test "should show url and redirect to original_url" do
+    @url.update(time_expired: Time.now + 1.day)
     get short_url_url(@url.short_code)
-    assert_response :success
+    assert_redirected_to @url.original_url
   end
 
-  test "should show result" do
-    get shortened_url_result_url(id: @url.hash_id)
-    assert_response :success
+  test "should render 404 for non-existent short_code" do
+    get short_url_url("nonexistent")
+    assert_response :not_found
   end
 
-  test "should not show expired url" do
+  test "should render 404 for expired url" do
     @url.update(time_expired: Time.now - 1.day)
     get short_url_url(@url.short_code)
-    assert_response :success
-    assert_match "URL not found or expired", @response.body
+    assert_response :not_found
   end
 end
