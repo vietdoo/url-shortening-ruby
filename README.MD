@@ -1,7 +1,7 @@
 ## URL SHORTENING SERVICE
 
 **Live Demo**: [URL Shortening Service](https://shorturl.vietdoo.me/)
-`Note: With render.com's free tier web service, it may take a few seconds to wake up the server.`
+`Note: With render.com's free tier web service, it may take a few seconds upto few minutes to wake up the server`
 
 ### Description
 This is a simple URL shortening service that takes a long URL and converts it into a short URL. The short URL can be used to redirect to the original long URL. Using Ruby on Rails, the service is built with a RESTful API that can be used to create, read short URLs.
