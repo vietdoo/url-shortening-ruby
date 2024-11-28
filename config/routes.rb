@@ -14,13 +14,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # namespace :web do
-  #   get "shortening-url" => "shortening#index", as: :shortening_url 
-  #   get "urls" => "urls#index"
-  #   get "shortened-url-result" => "urls#result", as: :shortened_url_result
-  #   get "/:short_code" => "urls#show", as: :short_url
-  # end
-
   get "shortening-url" => "web/shortening#index", as: :shortening_url
   get "urls" => "web/urls#index"
   get "shortened-url-result" => "web/urls#result", as: :shortened_url_result
@@ -29,4 +22,6 @@ Rails.application.routes.draw do
   namespace :users do
     get 'history' => 'history#index', as: :history_urls
   end
+
+  match '*path', to: 'application#not_found_method', via: :all
 end
